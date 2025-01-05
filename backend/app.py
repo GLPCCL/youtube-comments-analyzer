@@ -15,8 +15,21 @@ youtube_service = YouTubeService(os.getenv('YOUTUBE_API_KEY'))
 analysis_service = AnalysisService()
 visualization_service = VisualizationService()
 
+@app.route('/api/quota', methods=['GET'])
+def get_quota():
+    """Retourne le quota restant pour aujourd'hui"""
+    try:
+        remaining_quota = youtube_service.quota_manager.get_remaining_quota()
+        return jsonify({
+            'remaining_quota': remaining_quota,
+            'max_quota': youtube_service.quota_manager.MAX_DAILY_QUOTA
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze_comments():
+    """Analyse les commentaires d'une vidéo YouTube"""
     video_url = request.json.get('video_url')
     if not video_url:
         return jsonify({'error': 'URL de vidéo manquante'}), 400
@@ -37,7 +50,8 @@ def analyze_comments():
         return jsonify({
             'analysis': analysis_results,
             'visualizations': visualizations,
-            'suggestions': suggestions
+            'suggestions': suggestions,
+            'quota_remaining': youtube_service.quota_manager.get_remaining_quota()
         })
     
     except Exception as e:
