@@ -2,9 +2,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
-from services.youtube_service import YouTubeService
-from services.analysis_service import AnalysisService
-from services.visualization_service import VisualizationService
+from backend.services.youtube_service import YouTubeService
+from backend.services.analysis_service import AnalysisService
+from backend.services.visualization_service import VisualizationService
 
 load_dotenv()
 

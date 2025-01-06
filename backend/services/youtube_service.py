@@ -1,7 +1,7 @@
 from googleapiclient.discovery import build
 from urllib.parse import urlparse, parse_qs
-from ..utils.quota_manager import QuotaManager
-from ..utils.cache_manager import CacheManager
+from backend.utils.quota_manager import QuotaManager
+from backend.utils.cache_manager import CacheManager
 
 class YouTubeService:
     def __init__(self, api_key):
